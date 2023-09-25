@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Package Installer</title>
+    <style>
+        body {
+            background-color: #222;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin: 0 auto;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #007acc;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005a9c;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        pre {
+            background-color: #333;
+            color: #6fd2e4;
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: Monospace;
+            text-align: center;
+        }
+
+        button {
+            background-color: #007acc;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005a9c;
+        }
+
+        /* Style the button container */
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Package Installer</h1>
+    <form id="packageForm">
+        <label><input type="checkbox" name="package" value="python3-venv"> Python-Venv</label><br>
+        <label><input type="checkbox" name="package" value="python3-pip"> Python-pip</label><br>
+        <label><input type="checkbox" name="package" value="gimp"> Gimp</label><br>
+        <label><input type="checkbox" name="package" value="htop"> HTOP</label><br>
+        <label><input type="checkbox" name="package" value="qbittorrent"> qBittorrent</label><br>
+        <label><input type="checkbox" name="package" value="stellarium"> Stellarium</label><br>
+        <label><input type="checkbox" name="package" value="gpredict"> Gpredict</label><br>
+        <label><input type="checkbox" name="package" value="filezilla"> Filezilla</label><br>
+        <label><input type="checkbox" name="package" value="konvorsation"> Konvorsation</label><br>
+        <div class="button-container">
+            <input type="submit" value="Generate Command">
+            <button id="copyButton">Copy to Clipboard</button>
+        </div>
+    </form>
+    <h2>Command to Run:</h2>
+    <pre id="command"></pre>
+
+    <script>
+        document.getElementById('packageForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const selectedPackages = Array.from(document.querySelectorAll('input[name="package"]:checked')).map(checkbox => checkbox.value);
+            const command = `sudo apt install ${selectedPackages.join(' ')}`;
+            document.getElementById('command').textContent = command;
+        });
+
+        // Function to copy text to clipboard
+        document.getElementById('copyButton').addEventListener('click', function () {
+            const commandText = document.getElementById('command');
+            const textArea = document.createElement('textarea');
+            textArea.value = commandText.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Command copied to clipboard!');
+        });
+    </script>
+</body>
+</html>
